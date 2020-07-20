@@ -1,1 +1,3 @@
-book-stock-using-flask
+book-stock-api-using-flask
+__pycache__/
+.idea
