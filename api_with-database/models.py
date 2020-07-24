@@ -64,6 +64,23 @@ class Categories(Base):
         db_session.delete(self)
         db_session.commit()
 
+class Users(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    username = Column(String(20), unique=True)
+    password = Column(String(20))
+
+    def __repr__(self):
+        return '<User: {}>'.format(self.username)
+
+    def save(self):
+        db_session.add(self)
+        db_session.commit()
+
+    def delete(self):
+        db_session.delete(self)
+        db_session.commit()
+
 def init_db():
     Base.metadata.create_all(bind=engine)
 

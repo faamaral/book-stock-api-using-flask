@@ -1,13 +1,23 @@
 import json
-
+from flask_httpauth import HTTPBasicAuth
 from flask import Flask, request
 from flask_restful import Resource, Api
-from .models import Authors, Categories, Books
+from .models import Authors, Categories, Books, Users
 
+auth = HTTPBasicAuth()
 app = Flask(__name__)
 api = Api(app)
 
+
+
+@auth.verify_password
+def checking(login, password):
+    if not (login, password):
+        return False
+    return Users.query.filter_by(username=login, password=password).first()
+
 class Category(Resource):
+    @auth.login_required
     def get(self, id):
         category = Categories.query.filter_by(id=id).first()
         try:
